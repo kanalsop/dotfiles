@@ -1,5 +1,9 @@
 # dotfiles
 
+このリポジトリは、macOS のローカル端末環境と SSH 接続先の Ubuntu 環境で、できるだけ同じシェル操作感を再現するための dotfiles を管理するものです。
+主に `zsh`、`starship`、`eza`、`uv`、補完設定、alias / function 類を Git で一元管理し、OS 依存の差分は分離したまま共通化します。
+展開には `GNU Stow` を使い、必要な設定だけをホームディレクトリへ安全に反映する方針です。
+
 `GNU Stow` 前提の最小構成です。`zsh/` パッケージをホームディレクトリへ展開し、macOS と Ubuntu でできるだけ同じ操作感を維持します。
 
 ## Structure
