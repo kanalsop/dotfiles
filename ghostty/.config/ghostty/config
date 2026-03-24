@@ -1,0 +1,21 @@
+# フォント設定
+font-family = "UbuntuMono Nerd Font"
+font-size = 16
+
+# テーマ（デフォルトでも良いですが、モダンな暗色系に）
+# theme = catppuccin-mocha
+
+# 背景の透過とブラー（Macの特権）
+background-opacity = 0.85
+background-blur-radius = 20
+
+# タイトルバーをMacネイティブ風にする
+window-decoration = true
+window-theme = auto
+
+# ウィンドウの余白
+window-padding-x = 12
+window-padding-y = 12
+
+# ペースト時の警告を無効にする
+clipboard-paste-protection = false

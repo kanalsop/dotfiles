@@ -4,6 +4,8 @@
 
 ## Structure
 
+- `ghostty/.config/ghostty/config`
+  macOS ローカルで使う Ghostty の設定です。
 - `zsh/.zshrc`
   共通設定、OS 別設定、ローカル差分を順に読み込むエントリポイントです。
 - `zsh/.config/zsh/common.zsh`
@@ -23,9 +25,9 @@
 
 ```sh
 brew install zsh starship eza uv zsh-autosuggestions stow
-git clone <your-dotfiles-repo> ~/dotfiles
+git clone git@github.com:kanalsop/dotfiles.git ~/dotfiles
 cd ~/dotfiles
-stow zsh
+stow zsh ghostty
 ```
 
 `zsh` をログインシェルにする場合は次を実行します。
@@ -40,16 +42,20 @@ chsh -s "$(which zsh)"
 exec zsh
 ```
 
+Ghostty の設定は `stow ghostty` 実行後に Ghostty を再起動するか、Ghostty の設定リロードを実行して反映します。
+
 ### Update
 
 ```sh
 cd ~/dotfiles
 git pull
-stow zsh
+stow zsh ghostty
 exec zsh
 ```
 
 ## Ubuntu
+
+Ghostty はローカル端末側の責務なので、Ubuntu サーバー側では設定しません。
 
 ### Initial setup
 
