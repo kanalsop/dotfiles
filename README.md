@@ -15,20 +15,106 @@
 - `~/.zshrc.local`
   Git 管理しないローカル差分です。`notify()` のようなローカル専用関数はここに置きます。
 
-## Deploy
+## macOS
+
+### Initial setup
+
+前提として Homebrew が入っていることを想定しています。
 
 ```sh
+brew install zsh starship eza uv zsh-autosuggestions stow
 git clone <your-dotfiles-repo> ~/dotfiles
 cd ~/dotfiles
 stow zsh
 ```
 
-更新時は pull 後に `stow zsh` を再実行します。
+`zsh` をログインシェルにする場合は次を実行します。
+
+```sh
+chsh -s "$(which zsh)"
+```
+
+反映後は新しいシェルを開くか、現在のシェルで次を実行します。
+
+```sh
+exec zsh
+```
+
+### Update
 
 ```sh
 cd ~/dotfiles
 git pull
 stow zsh
+exec zsh
+```
+
+## Ubuntu
+
+### Initial setup
+
+`starship`、`eza`、`uv` は環境によって導入方法が複数ありますが、ここでは `apt` で入るものは `apt`、それ以外は公式インストーラを使う想定です。
+
+```sh
+sudo apt update
+sudo apt install -y zsh stow git curl unzip zsh-autosuggestions
+```
+
+`starship` をインストールします。
+
+```sh
+curl -sS https://starship.rs/install.sh | sh
+```
+
+`uv` をインストールします。
+
+```sh
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+`eza` をインストールします。
+- `gpg` コマンドが必要です．ない場合はインストールします．
+```sh
+sudo apt install -y gpg
+```
+
+- 続けてこれらを実行します
+```sh
+sudo mkdir -p /etc/apt/keyrings
+wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | sudo gpg --dearmor -o /etc/apt/keyrings/gierens.gpg
+echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | sudo tee /etc/apt/sources.list.d/gierens.list
+sudo chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.list
+sudo apt update
+sudo apt install -y eza
+```
+
+その後、このリポジトリを配置して設定を反映します。
+
+```sh
+git clone git@github.com:kanalsop/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+stow zsh
+```
+
+`zsh` をログインシェルにする場合は次を実行します。
+
+```sh
+chsh -s "$(which zsh)"
+```
+
+反映後は再ログインするか、現在のシェルで次を実行します。
+
+```sh
+exec zsh
+```
+
+### Update
+
+```sh
+cd ~/dotfiles
+git pull
+stow zsh
+exec zsh
 ```
 
 ## Local-only settings
