@@ -1,7 +1,9 @@
 # dotfiles
 
 このリポジトリは、macOS のローカル端末環境と SSH 接続先の Ubuntu 環境で、できるだけ同じシェル操作感を再現するための dotfiles を管理するものです。
+
 主に `zsh`、`starship`、`eza`、`uv`、補完設定、alias / function 類を Git で一元管理し、OS 依存の差分は分離したまま共通化します。
+
 展開には `GNU Stow` を使い、必要な設定だけをホームディレクトリへ安全に反映する方針です。
 
 `GNU Stow` 前提の最小構成です。`zsh/` パッケージをホームディレクトリへ展開し、macOS と Ubuntu でできるだけ同じ操作感を維持します。
@@ -19,7 +21,7 @@
 - `zsh/.config/zsh/linux.zsh`
   `~/.local/bin` など Linux 側の PATH 設定です。
 - `~/.zshrc.local`
-  Git 管理しないローカル差分です。`notify()` のようなローカル専用関数はここに置きます。
+  Git 管理しないローカル差分です。
 
 ## macOS
 
@@ -28,16 +30,10 @@
 前提として Homebrew が入っていることを想定しています。
 
 ```sh
-brew install zsh starship eza uv zsh-autosuggestions stow
+brew install starship eza uv zsh-autosuggestions stow
 git clone git@github.com:kanalsop/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 stow zsh ghostty
-```
-
-`zsh` をログインシェルにする場合は次を実行します。
-
-```sh
-chsh -s "$(which zsh)"
 ```
 
 反映後は新しいシェルを開くか、現在のシェルで次を実行します。
@@ -70,19 +66,19 @@ sudo apt update
 sudo apt install -y zsh stow git curl unzip zsh-autosuggestions
 ```
 
-`starship` をインストールします。
+`starship` のインストール
 
 ```sh
 curl -sS https://starship.rs/install.sh | sh
 ```
 
-`uv` をインストールします。
+`uv` のインストール
 
 ```sh
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-`eza` をインストールします。
+`eza` のインストール
 - `gpg` コマンドが必要です．ない場合はインストールします．
 ```sh
 sudo apt install -y gpg
@@ -129,17 +125,8 @@ exec zsh
 
 ## Local-only settings
 
-`notify()` など共有しない設定は各マシンで `~/.zshrc.local` に定義します。
+他のマシンと共有しない設定は各マシンで `~/.zshrc.local` に定義します。
 
-```zsh
-notify() {
-  "$@"
-  local exit_code=$?
-
-  osascript -e 'display notification "処理が終了しました" with title "DONE"'
-  return $exit_code
-}
-```
 
 ## References
 - https://zenn.dev/108_twil3akine/articles/mac-setup-263
