@@ -140,3 +140,6 @@ notify() {
   return $exit_code
 }
 ```
+
+## References
+- https://zenn.dev/108_twil3akine/articles/mac-setup-263
