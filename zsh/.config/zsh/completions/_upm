@@ -1,0 +1,6 @@
+#compdef upm
+
+_arguments -C \
+  '(-h --help)'{-h,--help}'[show help]' \
+  '1:python module file:_files -g "*.py"' \
+  '*::argument:_normal'
