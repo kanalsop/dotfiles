@@ -50,9 +50,9 @@ fi
 
 # eza settings
 if command -v eza >/dev/null 2>&1; then
-  alias ls="eza --icons --git --no-user"
-  alias ll="eza -l --icons --git --no-user"
-  alias la="eza -la --icons --git --no-user"
+  alias ls="eza --icons --git --header --time-style=relative"
+  alias ll="eza -l --icons --git --header --time-style=relative"
+  alias la="eza -la --icons --git --header --time-style=relative"
   alias tree="eza --tree --icons"
 fi
 
