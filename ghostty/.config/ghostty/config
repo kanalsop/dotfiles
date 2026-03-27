@@ -2,11 +2,11 @@
 font-family = "UbuntuMono Nerd Font"
 font-size = 16
 
-# テーマ（デフォルトでも良いですが、モダンな暗色系に）
-# theme = catppuccin-mocha
+# テーマ
+theme = dark:Catppuccin Mocha,light:Catppuccin Latte
 
-# 背景の透過とブラー（Macの特権）
-background-opacity = 0.85
+# 背景の透過とブラー
+background-opacity = 0.80
 background-blur-radius = 20
 
 # タイトルバーをMacネイティブ風にする
