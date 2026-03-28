@@ -1,0 +1,10 @@
+layout {
+    pane size="22%" split_direction="vertical" {
+        pane command="ft"
+        pane command="keifu"
+    }
+    pane split_direction="vertical" {
+        pane
+        pane size="30%"
+    }
+}
