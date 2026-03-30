@@ -1,0 +1,20 @@
+[
+  {
+    "label": "CSV/TSV: Align current file",
+    "command": "csvfmt",
+    "args": ["align", "--in-place", "$ZED_FILE"],
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+    "show_summary": false
+  },
+  {
+    "label": "CSV/TSV: Shrink current file",
+    "command": "csvfmt",
+    "args": ["shrink", "--in-place", "$ZED_FILE"],
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+    "show_summary": false
+  }
+]
