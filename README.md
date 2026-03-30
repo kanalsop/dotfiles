@@ -35,7 +35,7 @@
 brew install starship eza uv zsh-autosuggestions stow
 git clone git@github.com:kanalsop/dotfiles.git ~/dotfiles
 cd ~/dotfiles
-stow zsh ghostty
+stow zsh ghostty zellij zed
 ```
 
 反映後は新しいシェルを開くか、現在のシェルで次を実行します。
