@@ -13,7 +13,7 @@
 - `ghostty/.config/ghostty/config`
   macOS ローカルで使う Ghostty の設定です。
 - `zellij/.config/zellij/`
-- macOS ローカルで使う　zellij　の設定です．
+  macOS ローカルで使う zellij の設定です。
 - `zsh/.zshrc`
   共通設定、OS 別設定、ローカル差分を順に読み込むエントリポイントです。
 - `zsh/.config/zsh/common.zsh`
@@ -32,9 +32,9 @@
 前提として Homebrew が入っていることを想定しています。
 
 ```sh
-brew install starship eza uv zsh-autosuggestions stow
-git clone git@github.com:kanalsop/dotfiles.git ~/dotfiles
-cd ~/dotfiles
+brew install starship eza uv zsh-autosuggestions stow && \
+git clone git@github.com:kanalsop/dotfiles.git ~/dotfiles && \
+cd ~/dotfiles && \
 stow zsh ghostty zellij zed
 ```
 
@@ -49,9 +49,9 @@ Ghostty の設定は `stow ghostty` 実行後に Ghostty を再起動するか�
 ### Update
 
 ```sh
-cd ~/dotfiles
-git pull
-stow zsh ghostty zellij zed
+cd ~/dotfiles && \
+git pull && \
+stow zsh ghostty zellij zed && \
 exec zsh
 ```
 
@@ -64,8 +64,8 @@ Ghostty, zellij, zed はローカル端末側の責務なので、Ubuntu サー�
 `starship`、`eza`、`uv` は環境によって導入方法が複数ありますが、ここでは `apt` で入るものは `apt`、それ以外は公式インストーラを使う想定です。
 
 ```sh
-sudo apt update
-sudo apt install -y zsh stow git curl unzip zsh-autosuggestions
+sudo apt update && \
+sudo apt install -y zsh stow git curl unzip gpg zsh-autosuggestions
 ```
 
 - `starship` のインストール
@@ -82,28 +82,20 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 
 - `eza` のインストール
 
-`gpg` コマンドが必要です．ない場合はインストールします．
-
 ```sh
-sudo apt install -y gpg
-```
-
-続けてこれらを実行します
-
-```sh
-sudo mkdir -p /etc/apt/keyrings
-wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | sudo gpg --dearmor -o /etc/apt/keyrings/gierens.gpg
-echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | sudo tee /etc/apt/sources.list.d/gierens.list
-sudo chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.list
-sudo apt update
+sudo mkdir -p /etc/apt/keyrings && \
+curl -fsSL https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | sudo gpg --dearmor --yes -o /etc/apt/keyrings/gierens.gpg && \
+echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | sudo tee /etc/apt/sources.list.d/gierens.list > /dev/null && \
+sudo chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.list && \
+sudo apt update && \
 sudo apt install -y eza
 ```
 
 その後、このリポジトリを配置して設定を反映します。
 
 ```sh
-git clone git@github.com:kanalsop/dotfiles.git ~/dotfiles
-cd ~/dotfiles
+git clone git@github.com:kanalsop/dotfiles.git ~/dotfiles && \
+cd ~/dotfiles && \
 stow zsh
 ```
 
@@ -122,9 +114,9 @@ exec zsh
 ### Update
 
 ```sh
-cd ~/dotfiles
-git pull
-stow zsh
+cd ~/dotfiles && \
+git pull && \
+stow zsh && \
 exec zsh
 ```
 
