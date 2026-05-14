@@ -68,25 +68,28 @@ sudo apt update
 sudo apt install -y zsh stow git curl unzip zsh-autosuggestions
 ```
 
-`starship` のインストール
+- `starship` のインストール
 
 ```sh
 curl -sS https://starship.rs/install.sh | sh
 ```
 
-`uv` のインストール
+- `uv` のインストール
 
 ```sh
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-`eza` のインストール
-- `gpg` コマンドが必要です．ない場合はインストールします．
+- `eza` のインストール
+
+`gpg` コマンドが必要です．ない場合はインストールします．
+
 ```sh
 sudo apt install -y gpg
 ```
 
-- 続けてこれらを実行します
+続けてこれらを実行します
+
 ```sh
 sudo mkdir -p /etc/apt/keyrings
 wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | sudo gpg --dearmor -o /etc/apt/keyrings/gierens.gpg
@@ -129,6 +132,6 @@ exec zsh
 
 他のマシンと共有しない設定は各マシンで `~/.zshrc.local` に定義します。
 
-
 ## References
-- https://zenn.dev/108_twil3akine/articles/mac-setup-263
+
+- [https://zenn.dev/108_twil3akine/articles/mac-setup-263](https://zenn.dev/108_twil3akine/articles/mac-setup-263)
