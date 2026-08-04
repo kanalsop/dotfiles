@@ -1,0 +1,101 @@
+#!/bin/sh
+set -eu
+
+fail() {
+  echo "linux-setup: $*" >&2
+  exit 1
+}
+
+if [ "$(uname -s)" != "Linux" ]; then
+  fail "Linux is required."
+fi
+
+if [ ! -r /etc/os-release ]; then
+  fail "/etc/os-release is not readable."
+fi
+
+# shellcheck disable=SC1091
+. /etc/os-release
+
+if [ "${ID:-}" != "ubuntu" ]; then
+  fail "Ubuntu is required (detected: ${ID:-unknown})."
+fi
+
+if [ "$(id -u)" -eq 0 ]; then
+  run_as_root() {
+    "$@"
+  }
+elif command -v sudo >/dev/null 2>&1; then
+  run_as_root() {
+    sudo "$@"
+  }
+else
+  fail "sudo is required when not running as root."
+fi
+
+export PATH="$HOME/.local/bin:/usr/bin:$PATH"
+
+echo "Installing Codex CLI prerequisites..."
+run_as_root apt-get update
+run_as_root apt-get install -y \
+  curl \
+  bubblewrap \
+  apparmor-profiles \
+  apparmor-utils
+
+apparmor_restrict_path="/proc/sys/kernel/apparmor_restrict_unprivileged_userns"
+apparmor_profile_path="/etc/apparmor.d/bwrap-userns-restrict"
+apparmor_extra_profile_path="/usr/share/apparmor/extra-profiles/bwrap-userns-restrict"
+
+if [ -r "$apparmor_restrict_path" ] && [ "$(sed -n '1p' "$apparmor_restrict_path")" = "1" ]; then
+  if [ ! -f "$apparmor_profile_path" ]; then
+    if [ ! -f "$apparmor_extra_profile_path" ]; then
+      fail "AppArmor restricts unprivileged user namespaces, but the bwrap profile is unavailable."
+    fi
+
+    run_as_root install -m 0644 \
+      "$apparmor_extra_profile_path" \
+      "$apparmor_profile_path"
+  fi
+
+  echo "Loading the AppArmor profile for bwrap..."
+  run_as_root apparmor_parser -r "$apparmor_profile_path"
+fi
+
+if [ ! -x /usr/bin/bwrap ]; then
+  fail "/usr/bin/bwrap is unavailable after installing bubblewrap."
+fi
+
+echo "Verifying bubblewrap user namespace access..."
+if ! /usr/bin/bwrap \
+  --unshare-user \
+  --unshare-net \
+  --ro-bind / / \
+  /bin/true
+then
+  fail "bubblewrap could not create the namespaces required by Codex."
+fi
+
+installer_file="$(mktemp "${TMPDIR:-/tmp}/codex-install.XXXXXX")"
+cleanup() {
+  rm -f "$installer_file"
+}
+trap cleanup 0 1 2 15
+
+echo "Installing or updating Codex CLI..."
+curl -fsSL https://chatgpt.com/codex/install.sh -o "$installer_file"
+CODEX_NON_INTERACTIVE=1 sh "$installer_file"
+
+cleanup
+trap - 0 1 2 15
+
+if ! command -v codex >/dev/null 2>&1; then
+  fail "Codex CLI was installed, but codex is not available on PATH."
+fi
+
+echo "Verifying the Codex Linux sandbox..."
+if ! codex sandbox -- /bin/true; then
+  fail "Codex could not run a command in its Linux sandbox."
+fi
+
+echo "Codex Linux sandbox setup complete."

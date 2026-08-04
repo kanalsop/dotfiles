@@ -28,6 +28,8 @@
   Homebrew、`~/.local/bin`、nvm、OpenJDK など macOS 固有の PATH 設定です。
 - `zsh/.config/zsh/linux.zsh`
   `~/.local/bin` と、Codex CLI が `bwrap` を検出するための `/usr/bin` など、Linux 側の PATH 設定です。
+- `zsh/.local/bin/linux-setup`
+  Ubuntu 上で Codex CLI、`bubblewrap`、AppArmor profile をセットアップし、Linux sandbox の動作を検証する補助コマンドです。
 - `~/.zshrc.local`
   Git 管理しないローカル差分です。
 
@@ -78,18 +80,29 @@ Ghostty, zellij, VS Code はローカル端末側の責務なので、Ubuntu サ
 
 ### Initial setup
 
-`starship`、`eza`、`uv`、Codex CLI は環境によって導入方法が複数ありますが、ここでは `apt` で入るものは `apt`、それ以外は公式インストーラを使う想定です。Codex CLI の Linux sandbox が使う `bwrap` は `bubblewrap` パッケージで導入します。
+`starship`、`eza`、`uv`、Codex CLI は環境によって導入方法が複数ありますが、ここでは `apt` で入るものは `apt`、それ以外は公式インストーラを使う想定です。
 
 ```sh
 sudo apt update && \
-sudo apt install -y zsh stow git curl unzip gpg zsh-autosuggestions bubblewrap
+sudo apt install -y zsh stow git curl unzip gpg zsh-autosuggestions
 ```
 
-- `Codex CLI` のインストール
+このリポジトリを配置し、Codex CLI の Linux sandbox をセットアップします。
 
 ```sh
-curl -fsSL https://chatgpt.com/codex/install.sh | sh
+git clone git@github.com:kanalsop/dotfiles.git ~/dotfiles && \
+cd ~/dotfiles && \
+./zsh/.local/bin/linux-setup
 ```
+
+`linux-setup` は [Codex の Linux sandbox prerequisites](https://developers.openai.com/codex/concepts/sandboxing#prerequisites) に沿って次を冪等に実行するため、既存のサーバーへの再適用や Codex CLI の更新にも使用できます。
+
+- `bubblewrap`、`apparmor-profiles`、`apparmor-utils` のインストール
+- unprivileged user namespace が制限されている場合の `bwrap` AppArmor profile の配置と読み込み
+- Codex CLI 公式インストーラの実行
+- `bwrap` 単体と `codex sandbox` の動作確認
+
+その他の共通ツールは個別にインストールします。
 
 - `starship` のインストール
 
@@ -114,15 +127,40 @@ sudo apt update && \
 sudo apt install -y eza
 ```
 
-その後、このリポジトリを配置して設定を反映します。
+その後、zsh の設定を反映します。
 
 ```sh
-git clone git@github.com:kanalsop/dotfiles.git ~/dotfiles && \
-cd ~/dotfiles && \
 stow zsh
 ```
 
 `linux.zsh` は Codex CLI などのユーザーコマンド用に `~/.local/bin` を、`apt` がインストールする `/usr/bin/bwrap` を Codex CLI が確実に検出できるように `/usr/bin` を PATH へ明示的に追加します。
+
+`linux-setup` は、Linux sandbox と同じ条件で次の 2 段階の確認を行います。どちらも終了コードが `0` なら sandbox は利用可能です。
+
+```sh
+/usr/bin/bwrap \
+  --unshare-user \
+  --unshare-net \
+  --ro-bind / / \
+  /bin/true
+
+codex sandbox -- /bin/true
+```
+
+Codex CLI v0.146.0 では、両方が成功していても起動時に `bwrap` の PATH または user namespace に関する警告が表示されることがあります（[PATH 警告の報告](https://github.com/openai/codex/issues/30691)、[sandbox が動作する場合の誤検知報告](https://github.com/openai/codex/issues/25404)）。この場合は sandbox の実動作に成功しているため、追加の sysctl 変更や警告を隠す alias は設定しません。
+
+`bwrap` 単体の確認に失敗した場合は AppArmor profile の状態を確認します。
+
+```sh
+sudo aa-status | grep -i bwrap || true
+sysctl \
+  kernel.apparmor_restrict_unprivileged_userns \
+  kernel.unprivileged_userns_clone \
+  user.max_user_namespaces
+sudo journalctl -k -n 100 --no-pager \
+  | grep -Ei 'apparmor|denied|bwrap|userns' \
+  | tail -30
+```
 
 `zsh` をログインシェルにする場合は次を実行します。
 
