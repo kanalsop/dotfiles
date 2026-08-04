@@ -14,14 +14,20 @@
   macOS ローカルで使う Ghostty の設定です。
 - `zellij/.config/zellij/`
   macOS ローカルで使う zellij の設定です。
+- `code/Library/Application Support/Code/User/`
+  macOS ローカルで使う VS Code の共通 User 設定です。
+- `code/.config/vscode/`
+  VS Code profile ごとの設定テンプレートと拡張機能リストです。
+- `code/.local/bin/vscode-setup`
+  VS Code の拡張機能と profile 設定を再現する補助コマンドです。
 - `zsh/.zshrc`
   共通設定、OS 別設定、ローカル差分を順に読み込むエントリポイントです。
 - `zsh/.config/zsh/common.zsh`
   補完、alias、`upm()`、Starship 初期化などの共通設定です。
 - `zsh/.config/zsh/macos.zsh`
-  Homebrew や Antigravity など macOS 固有の PATH 設定です。
+  Homebrew、`~/.local/bin`、nvm、OpenJDK など macOS 固有の PATH 設定です。
 - `zsh/.config/zsh/linux.zsh`
-  `~/.local/bin` など Linux 側の PATH 設定です。
+  `~/.local/bin` と、Codex CLI が `bwrap` を検出するための `/usr/bin` など、Linux 側の PATH 設定です。
 - `~/.zshrc.local`
   Git 管理しないローカル差分です。
 
@@ -29,13 +35,14 @@
 
 ### Initial setup
 
-前提として Homebrew が入っていることを想定しています。
+前提として Homebrew、VS Code、VS Code CLI の `code` コマンドが入っていることを想定しています。
 
 ```sh
 brew install starship eza uv zsh-autosuggestions stow && \
 git clone git@github.com:kanalsop/dotfiles.git ~/dotfiles && \
 cd ~/dotfiles && \
-stow zsh ghostty zellij zed
+stow zsh ghostty zellij code && \
+~/.local/bin/vscode-setup
 ```
 
 反映後は新しいシェルを開くか、現在のシェルで次を実行します。
@@ -46,26 +53,42 @@ exec zsh
 
 Ghostty の設定は `stow ghostty` 実行後に Ghostty を再起動するか、Ghostty の設定リロードを実行して反映します。
 
+VS Code は次の 2 段階で設定します。
+
+1. `stow code`
+   `~/Library/Application Support/Code/User/settings.json` などの VS Code 設定ファイルと、`~/.local/bin/vscode-setup` コマンドをホームディレクトリへリンクします。
+2. `~/.local/bin/vscode-setup`
+   VS Code CLI の `code` コマンドを使って、拡張機能をインストールします。あわせて `Python`、`Rust`、`Swift`、`Web Manager`、`tex editor`、`workflow runner` profile の設定ファイルも反映します。
+
+初回セットアップ時点では、まだ新しいシェル設定が読み込まれていないため `~/.local/bin/vscode-setup` とフルパスで実行します。`exec zsh` 後や次回以降の新しいシェルでは、`~/.local/bin` に PATH が通るので `vscode-setup` だけで実行できます。
+
 ### Update
 
 ```sh
 cd ~/dotfiles && \
 git pull && \
-stow zsh ghostty zellij zed && \
+stow zsh ghostty zellij code && \
+vscode-setup && \
 exec zsh
 ```
 
 ## Ubuntu
 
-Ghostty, zellij, zed はローカル端末側の責務なので、Ubuntu サーバー側では設定しません。
+Ghostty, zellij, VS Code はローカル端末側の責務なので、Ubuntu サーバー側では設定しません。
 
 ### Initial setup
 
-`starship`、`eza`、`uv` は環境によって導入方法が複数ありますが、ここでは `apt` で入るものは `apt`、それ以外は公式インストーラを使う想定です。
+`starship`、`eza`、`uv`、Codex CLI は環境によって導入方法が複数ありますが、ここでは `apt` で入るものは `apt`、それ以外は公式インストーラを使う想定です。Codex CLI の Linux sandbox が使う `bwrap` は `bubblewrap` パッケージで導入します。
 
 ```sh
 sudo apt update && \
-sudo apt install -y zsh stow git curl unzip gpg zsh-autosuggestions
+sudo apt install -y zsh stow git curl unzip gpg zsh-autosuggestions bubblewrap
+```
+
+- `Codex CLI` のインストール
+
+```sh
+curl -fsSL https://chatgpt.com/codex/install.sh | sh
 ```
 
 - `starship` のインストール
@@ -98,6 +121,8 @@ git clone git@github.com:kanalsop/dotfiles.git ~/dotfiles && \
 cd ~/dotfiles && \
 stow zsh
 ```
+
+`linux.zsh` は Codex CLI などのユーザーコマンド用に `~/.local/bin` を、`apt` がインストールする `/usr/bin/bwrap` を Codex CLI が確実に検出できるように `/usr/bin` を PATH へ明示的に追加します。
 
 `zsh` をログインシェルにする場合は次を実行します。
 
