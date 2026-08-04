@@ -1,0 +1,7 @@
+catppuccin.catppuccin-vsc
+catppuccin.catppuccin-vsc-icons
+james-yu.latex-workshop
+mechatroner.rainbow-csv
+ms-vscode-remote.remote-ssh
+shd101wyy.markdown-preview-enhanced
+yzane.markdown-pdf

@@ -1,0 +1,75 @@
+{
+    "latex-workshop.intellisense.package.enabled": true,
+    "latex-workshop.latex.clean.fileTypes": [
+        "*.aux",
+        "*.bbl",
+        "*.blg",
+        "*.idx",
+        "*.ind",
+        "*.lof",
+        "*.lot",
+        "*.out",
+        "*.toc",
+        "*.acn",
+        "*.acr",
+        "*.alg",
+        "*.glg",
+        "*.glo",
+        "*.gls",
+        "*.ist",
+        "*.fls",
+        "*.fdb_latexmk",
+        "*.snm",
+        "*.nav",
+        "*.dvi"
+    ],
+    "latex-workshop.latex.outDir": "out",
+    "latex-workshop.latex.autoClean.run": "never",
+    "latex-workshop.synctex.afterBuild.enabled": true,
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "latexmk",
+            "tools": [
+                "latexmk"
+            ]
+        }
+    ],
+    "latex-workshop.latex.tools": [
+        {
+            "name": "latexmk",
+            "command": "latexmk",
+            "args": [
+                "-silent",
+                "-outdir=%OUTDIR%",
+                "%DOC%"
+            ]
+        }
+    ],
+    "editor.wordWrap": "on",
+    "github.copilot.enable": {
+        "*": false,
+        "plaintext": false,
+        "markdown": false,
+        "scminput": false,
+        "latex": false
+    },
+    "markdown-preview-enhanced.printBackground": true,
+    "markdown.preview.breaks": true,
+    "window.autoDetectColorScheme": true,
+    "markdown-pdf.convertOnSave": true,
+    "files.autoSave": "onFocusChange",
+    "latex-workshop.latex.autoBuild.run": "onSave",
+    "editor.unicodeHighlight.allowedCharacters": {
+        "，": true,
+        "．": true,
+        "（": true,
+        "）": true,
+        "：": true
+    },
+    "workbench.preferredLightColorTheme": "Catppuccin Latte",
+    "workbench.iconTheme": "catppuccin-mocha",
+    "workbench.preferredDarkColorTheme": "Catppuccin Mocha",
+    "editor.fontSize": 14,
+    "terminal.integrated.fontSize": 14,
+    "workbench.panel.showLabels": false
+}

@@ -1,0 +1,70 @@
+{
+    "files.autoSave": "onFocusChange",
+    "editor.renderWhitespace": "all",
+    "editor.wordWrap": "on",
+    "python.analysis.typeCheckingMode": "basic",
+    "editor.accessibilitySupport": "off",
+    "terminal.integrated.fontFamily": "'Moralerspace Neon HW', 'UDEV Gothic NF', monospace",
+    "github.copilot.enable": {
+        "*": false,
+        "plaintext": false,
+        "markdown": false,
+        "scminput": false,
+        "python": false
+    },
+    "[python]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.fixAll": "explicit",
+            "source.organizeImports": "explicit"
+        },
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        "diffEditor.ignoreTrimWhitespace": false
+    },
+    "[typescript]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.fixAll.eslint": "explicit"
+        }
+    },
+    "[markdown]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.fixAll.markdownlint": "explicit"
+        },
+        "editor.quickSuggestions": {
+            "other": "on",
+            "comments": "on",
+            "strings": "on"
+        },
+        "editor.snippetSuggestions": "top"
+    },
+    "workbench.editor.empty.hint": "hidden",
+    "github.copilot.nextEditSuggestions.enabled": true,
+    "workbench.settings.useSplitJSON": true,
+    "diffEditor.hideUnchangedRegions.enabled": true,
+    "terminal.integrated.tabs.enabled": false,
+    "workbench.panel.showLabels": false,
+    "workbench.secondarySideBar.showLabels": false,
+    "chat.viewSessions.orientation": "stacked",
+    "editor.fontFamily": "'Moralerspace Neon HW', 'UDEV Gothic NF', monospace",
+    "editor.fontSize": 14,
+    "workbench.preferredLightColorTheme": "Catppuccin Latte",
+    "workbench.preferredDarkColorTheme": "Catppuccin Mocha",
+    "terminal.integrated.fontSize": 14,
+    "window.autoDetectColorScheme": true,
+    "workbench.iconTheme": "catppuccin-latte",
+    "markdown.preview.breaks": true,
+    "workbench.settings.applyToAllProfiles": [
+        "workbench.iconTheme",
+        "workbench.preferredDarkColorTheme",
+        "workbench.preferredLightColorTheme",
+        "editor.fontSize",
+        "editor.minimap.sectionHeaderFontSize",
+        "terminal.integrated.fontSize",
+        "git.detectWorktrees"
+    ],
+    "editor.minimap.sectionHeaderFontSize": 12,
+    "git.detectWorktrees": true,
+    "editor.inlineSuggest.suppressSuggestions": true
+}

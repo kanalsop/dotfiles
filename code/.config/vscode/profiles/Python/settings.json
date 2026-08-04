@@ -1,0 +1,51 @@
+{
+    "files.autoSave": "onFocusChange",
+    "editor.renderWhitespace": "all",
+    "editor.wordWrap": "on",
+    "window.autoDetectColorScheme": true,
+    "python.analysis.typeCheckingMode": "basic",
+    "editor.accessibilitySupport": "off",
+    "terminal.integrated.fontFamily": "'Moralerspace Neon HW', 'UDEV Gothic NF', monospace",
+    "github.copilot.enable": {
+        "*": false,
+        "plaintext": false,
+        "markdown": false,
+        "scminput": false,
+        "python": false
+    },
+    "[python]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.fixAll": "explicit",
+            "source.organizeImports": "explicit"
+        },
+        "editor.defaultFormatter": "charliermarsh.ruff",
+        "diffEditor.ignoreTrimWhitespace": false
+    },
+    "workbench.editor.empty.hint": "hidden",
+    "github.copilot.nextEditSuggestions.enabled": true,
+    "workbench.settings.useSplitJSON": true,
+    "diffEditor.hideUnchangedRegions.enabled": true,
+    "workbench.secondarySideBar.showLabels": false,
+    "terminal.integrated.tabs.enabled": false,
+    "scm.graph.showOutgoingChanges": false,
+    "scm.graph.showIncomingChanges": false,
+    "terminal.integrated.suggest.enabled": false,
+    "python.terminal.activateEnvironment": false,
+    "files.watcherExclude": {
+        "**/yaml/**": true
+    },
+    "workbench.preferredLightColorTheme": "Catppuccin Latte",
+    "workbench.preferredDarkColorTheme": "Catppuccin Mocha",
+    "editor.fontSize": 14,
+    "terminal.integrated.fontSize": 14,
+    "editor.minimap.sectionHeaderFontSize": 12,
+    "workbench.iconTheme": "catppuccin-latte",
+    "editor.fontFamily": "'Moralerspace Neon HW', monospace",
+    "files.exclude": {
+        "**/__pycache__": true
+    },
+    "chatgpt.composerEnterBehavior": "cmdIfMultiline",
+    "workbench.panel.showLabels": false,
+    "terminal.integrated.initialHint": false
+}

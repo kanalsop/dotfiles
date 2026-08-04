@@ -1,0 +1,33 @@
+{
+    "files.autoSave": "afterDelay",
+    "editor.renderWhitespace": "all",
+    "editor.wordWrap": "on",
+    "window.autoDetectColorScheme": true,
+    "editor.accessibilitySupport": "off",
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "github.copilot.enable": {
+        "*": false,
+        "plaintext": false,
+        "markdown": false,
+        "scminput": false,
+        "python": false
+    },
+    "[python]": {
+        "editor.codeActionsOnSave": {
+            "source.fixAll": "explicit",
+            "source.organizeImports": "explicit"
+        },
+        "editor.defaultFormatter": "charliermarsh.ruff"
+    },
+    "workbench.editor.empty.hint": "hidden",
+    "github.copilot.nextEditSuggestions.enabled": true,
+    "workbench.settings.useSplitJSON": true,
+    "liveServer.settings.donotShowInfoMsg": true,
+    "terminal.integrated.tabs.enabled": false,
+    "scm.graph.showIncomingChanges": false,
+    "scm.graph.showOutgoingChanges": false,
+    "workbench.secondarySideBar.showLabels": false,
+    "terminal.integrated.fontFamily": "'Moralerspace Neon HW', 'UDEV Gothic NF', monospace",
+    "terminal.integrated.fontSize": 14
+}

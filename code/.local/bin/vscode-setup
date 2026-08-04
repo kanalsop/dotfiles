@@ -1,0 +1,109 @@
+#!/bin/zsh
+set -euo pipefail
+
+script_path="${0:A}"
+dotfiles_dir="${DOTFILES_DIR:-${script_path:h:h:h:h}}"
+code_dir="$dotfiles_dir/code"
+extensions_dir="$code_dir/.config/vscode/extensions"
+profiles_dir="$code_dir/.config/vscode/profiles"
+
+if ! command -v code >/dev/null 2>&1; then
+  echo "code command is not available. Install VS Code and run 'Shell Command: Install code command in PATH' first." >&2
+  exit 1
+fi
+
+case "$(uname -s)" in
+  Darwin)
+    user_dir="${VSCODE_USER_DIR:-$HOME/Library/Application Support/Code/User}"
+    ;;
+  Linux)
+    user_dir="${VSCODE_USER_DIR:-$HOME/.config/Code/User}"
+    ;;
+  *)
+    echo "Unsupported OS: $(uname -s)" >&2
+    exit 1
+    ;;
+esac
+
+install_extensions() {
+  local list_file="$1"
+  local profile_name="${2:-}"
+  local extension
+
+  [[ -f "$list_file" ]] || return 0
+
+  while IFS= read -r extension || [[ -n "$extension" ]]; do
+    extension="${extension%%#*}"
+    extension="${extension#"${extension%%[![:space:]]*}"}"
+    extension="${extension%"${extension##*[![:space:]]}"}"
+    [[ -n "$extension" ]] || continue
+
+    if [[ -n "$profile_name" ]]; then
+      code --profile "$profile_name" --install-extension "$extension" --force
+    else
+      code --install-extension "$extension" --force
+    fi
+  done < "$list_file"
+}
+
+profile_location() {
+  local profile_name="$1"
+  local storage_file="$user_dir/globalStorage/storage.json"
+
+  [[ -f "$storage_file" ]] || return 1
+  command -v python3 >/dev/null 2>&1 || return 1
+
+  python3 - "$storage_file" "$profile_name" <<'PY'
+import json
+import sys
+
+storage_file, profile_name = sys.argv[1], sys.argv[2]
+with open(storage_file, encoding="utf-8") as f:
+    data = json.load(f)
+
+for profile in data.get("userDataProfiles", []):
+    if profile.get("name") == profile_name:
+        print(profile.get("location", ""))
+        break
+PY
+}
+
+apply_profile_files() {
+  local profile_name="$1"
+  local source_dir="$profiles_dir/$profile_name"
+  local location
+  local target_dir
+  local file
+
+  [[ -d "$source_dir" ]] || return 0
+
+  location="$(profile_location "$profile_name" || true)"
+  if [[ -z "$location" ]]; then
+    echo "Profile '$profile_name' was not found in VS Code storage. Open VS Code once, then rerun vscode-setup if profile settings are missing." >&2
+    return 0
+  fi
+
+  target_dir="$user_dir/profiles/$location"
+  mkdir -p "$target_dir"
+
+  for file in settings.json keybindings.json; do
+    [[ -f "$source_dir/$file" ]] || continue
+    cp "$source_dir/$file" "$target_dir/$file"
+  done
+
+  if [[ -d "$source_dir/snippets" ]]; then
+    mkdir -p "$target_dir/snippets"
+    cp -R "$source_dir/snippets/." "$target_dir/snippets/"
+  fi
+}
+
+install_extensions "$extensions_dir/default.txt"
+
+for list_file in "$extensions_dir"/*.txt(N); do
+  profile_name="${list_file:t:r}"
+  [[ "$profile_name" == "default" ]] && continue
+  install_extensions "$list_file" "$profile_name"
+  apply_profile_files "$profile_name"
+done
+
+echo "VS Code setup complete."

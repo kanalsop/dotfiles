@@ -1,0 +1,14 @@
+{
+    "workbench.iconTheme": "catppuccin-latte",
+    "workbench.preferredDarkColorTheme": "Catppuccin Mocha",
+    "workbench.preferredLightColorTheme": "Catppuccin Latte",
+    "window.autoDetectColorScheme": true,
+    "workbench.colorTheme": "Catppuccin Mocha",
+    "files.autoSave": "onFocusChange",
+    "github.copilot.enable": {
+        "*": false,
+        "plaintext": false,
+        "markdown": false,
+        "scminput": false
+    }
+}

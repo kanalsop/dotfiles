@@ -1,0 +1,6 @@
+catppuccin.catppuccin-vsc
+catppuccin.catppuccin-vsc-icons
+davidanson.vscode-markdownlint
+llvm-vs-code-extensions.lldb-dap
+openai.chatgpt
+swiftlang.swift-vscode

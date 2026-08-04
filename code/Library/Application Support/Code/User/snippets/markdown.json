@@ -1,0 +1,117 @@
+{
+    "table": {
+        "prefix": "table",
+        "body": [
+            "| ${1:Header 1} | ${2:Header 2} |",
+            "| --- | --- |",
+            "| ${3:Cell 1} | ${4:Cell 2} |",
+            "$0"
+        ],
+        "description": "Markdown table"
+    },
+    "Markdown Inline Code": {
+        "prefix": "code",
+        "body": [
+            "`$1`$0"
+        ],
+        "description": "Markdown inline code"
+    },
+    "Markdown Code Block": {
+        "prefix": "codeblock",
+        "body": [
+            "```${1:language}",
+            "$2",
+            "```",
+            "$0"
+        ],
+        "description": "Markdown fenced code block"
+    },
+    "Markdown Toggle (details/summary)": {
+        "prefix": "toggle",
+        "body": [
+            "<details>",
+            "<summary>${1:Title}</summary>",
+            "",
+            "$2",
+            "",
+            "</details>",
+            "$0"
+        ],
+        "description": "Markdown details block"
+    },
+    "Markdown Blockquote": {
+        "prefix": "quote",
+        "body": [
+            "> $1"
+        ],
+        "description": "Markdown blockquote"
+    },
+    "Markdown Link": {
+        "prefix": "link",
+        "body": [
+            "[${1:text}](${2:url})$0"
+        ],
+        "description": "Markdown link"
+    },
+    "Markdown Image": {
+        "prefix": "img",
+        "body": [
+            "![${1:alt}](${2:path})$0"
+        ],
+        "description": "Markdown image"
+    },
+    "Task List": {
+        "prefix": "todo",
+        "body": [
+            "- [ ] $1"
+        ],
+        "description": "Task list item"
+    },
+    "Callout NOTE": {
+        "prefix": "note",
+        "body": [
+            "> [!NOTE]",
+            "> $1"
+        ],
+        "description": "GitHub callout: NOTE"
+    },
+    "Callout TIP": {
+        "prefix": "tip",
+        "body": [
+            "> [!TIP]",
+            "> $1"
+        ],
+        "description": "GitHub callout: TIP"
+    },
+    "Callout IMPORTANT": {
+        "prefix": "important",
+        "body": [
+            "> [!IMPORTANT]",
+            "> $1"
+        ],
+        "description": "GitHub callout: IMPORTANT"
+    },
+    "Callout WARNING": {
+        "prefix": "warning",
+        "body": [
+            "> [!WARNING]",
+            "> $1"
+        ],
+        "description": "GitHub callout: WARNING"
+    },
+    "Callout CAUTION": {
+        "prefix": "caution",
+        "body": [
+            "> [!CAUTION]",
+            "> $1"
+        ],
+        "description": "GitHub callout: CAUTION"
+    },
+    "Line": {
+        "prefix": "line",
+        "body": [
+            "---"
+        ],
+        "description": "Horizontal rule"
+    }
+}
