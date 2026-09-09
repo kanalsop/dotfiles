@@ -11,7 +11,7 @@
 ## Structure
 
 - `ghostty/.config/ghostty/config`
-  macOS ローカルで使う Ghostty の設定です。
+  macOS ローカルで使う Ghostty の設定です。フォントは `Moralerspace Neon HW`、なければ `UDEV Gothic NF`、さらになければ `Cica` です。実体は Homebrew のフォント cask で入れます。
 - `zellij/.config/zellij/`
   macOS ローカルで使う zellij の設定です。
 - `code/Library/Application Support/Code/User/`
@@ -40,12 +40,19 @@
 前提として Homebrew、VS Code、VS Code CLI の `code` コマンドが入っていることを想定しています。
 
 ```sh
-brew install starship eza uv zsh-autosuggestions stow && \
+brew install starship eza uv zsh-autosuggestions stow \
+  font-moralerspace-hw font-udev-gothic-nf font-cica && \
 git clone git@github.com:kanalsop/dotfiles.git ~/dotfiles && \
 cd ~/dotfiles && \
 stow zsh ghostty zellij code && \
 ~/.local/bin/vscode-setup
 ```
+
+Ghostty / VS Code が参照するフォントは、設定ファイルには名前だけ書いてあります。実体は次の cask です。
+
+- `font-moralerspace-hw` … `Moralerspace Neon HW`
+- `font-udev-gothic-nf` … `UDEV Gothic NF`
+- `font-cica` … `Cica`
 
 反映後は新しいシェルを開くか、現在のシェルで次を実行します。
 
@@ -69,6 +76,7 @@ VS Code は次の 2 段階で設定します。
 ```sh
 cd ~/dotfiles && \
 git pull && \
+brew install font-moralerspace-hw font-udev-gothic-nf font-cica && \
 stow zsh ghostty zellij code && \
 vscode-setup && \
 exec zsh
