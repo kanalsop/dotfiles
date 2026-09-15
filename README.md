@@ -12,8 +12,6 @@
 
 - `ghostty/.config/ghostty/config`
   macOS ローカルで使う Ghostty の設定です。
-- `zellij/.config/zellij/`
-  macOS ローカルで使う zellij の設定です。
 - `code/Library/Application Support/Code/User/`
   macOS ローカルで使う VS Code の共通 User 設定です。
 - `code/.config/vscode/`
@@ -40,10 +38,11 @@
 前提として Homebrew、VS Code、VS Code CLI の `code` コマンドが入っていることを想定しています。
 
 ```sh
-brew install starship eza uv zsh-autosuggestions stow && \
+brew install ghostty starship eza uv zsh-autosuggestions stow && \
+brew install --cask font-moralerspace-hw font-udev-gothic-nf font-cica && \
 git clone git@github.com:kanalsop/dotfiles.git ~/dotfiles && \
 cd ~/dotfiles && \
-stow zsh ghostty zellij code && \
+stow zsh ghostty code && \
 ~/.local/bin/vscode-setup
 ```
 
@@ -64,19 +63,39 @@ VS Code は次の 2 段階で設定します。
 
 初回セットアップ時点では、まだ新しいシェル設定が読み込まれていないため `~/.local/bin/vscode-setup` とフルパスで実行します。`exec zsh` 後や次回以降の新しいシェルでは、`~/.local/bin` に PATH が通るので `vscode-setup` だけで実行できます。
 
+### Fonts
+
+Ghostty と VS Code の設定で指定しているフォントは次のとおりです。すべて Homebrew の cask からインストールできます。
+
+| フォント | 使用箇所 | Homebrew cask |
+| --- | --- | --- |
+| Moralerspace Neon HW | Ghostty、VS Code 共通設定のエディター・ターミナル、Python profile のエディター・ターミナル、Web Manager profile のターミナル | [font-moralerspace-hw](https://formulae.brew.sh/cask/font-moralerspace-hw) |
+| UDEV Gothic NF | Ghostty、VS Code 共通設定のエディター・ターミナル、Python / Web Manager profile のターミナル | [font-udev-gothic-nf](https://formulae.brew.sh/cask/font-udev-gothic-nf) |
+| Cica | Ghostty | [font-cica](https://formulae.brew.sh/cask/font-cica) |
+
+`font-moralerspace-hw` には `Moralerspace Neon HW` が含まれます。VS Code の `monospace` は汎用フォント指定なので、個別のインストールは不要です。
+
+上の初回セットアップにも含めていますが、セットアップ済みの環境では次のコマンドでフォントだけを追加できます。
+
+```sh
+brew install --cask font-moralerspace-hw font-udev-gothic-nf font-cica
+```
+
+インストール後は Ghostty と VS Code を再起動してください。
+
 ### Update
 
 ```sh
 cd ~/dotfiles && \
 git pull && \
-stow zsh ghostty zellij code && \
+stow zsh ghostty code && \
 vscode-setup && \
 exec zsh
 ```
 
 ## Ubuntu
 
-Ghostty, zellij, VS Code はローカル端末側の責務なので、Ubuntu サーバー側では設定しません。
+Ghostty, VS Code はローカル端末側の責務なので、Ubuntu サーバー側では設定しません。
 
 ### Initial setup
 
