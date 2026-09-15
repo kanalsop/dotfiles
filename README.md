@@ -10,6 +10,8 @@
 
 ## Structure
 
+- `.stowrc`
+  macOS が生成する `.DS_Store` を Stow の対象から除外します。Stow はリポジトリのルートで実行してください。
 - `ghostty/.config/ghostty/config`
   macOS ローカルで使う Ghostty の設定です。
 - `code/Library/Application Support/Code/User/`
@@ -22,6 +24,8 @@
   共通設定、OS 別設定、ローカル差分を順に読み込むエントリポイントです。
 - `zsh/.config/zsh/common.zsh`
   補完、alias、`upm()`、Starship 初期化などの共通設定です。
+- `zsh/.config/zsh/navigation.zsh`
+  OS 別の PATH 設定後に fzf と zoxide を初期化します。
 - `zsh/.config/zsh/macos.zsh`
   Homebrew、`~/.local/bin`、nvm、OpenJDK など macOS 固有の PATH 設定です。
 - `zsh/.config/zsh/linux.zsh`
@@ -38,7 +42,7 @@
 前提として Homebrew、VS Code、VS Code CLI の `code` コマンドが入っていることを想定しています。
 
 ```sh
-brew install ghostty starship eza uv zsh-autosuggestions stow && \
+brew install ghostty starship eza uv zsh-autosuggestions fzf zoxide stow && \
 brew install --cask font-moralerspace-hw font-udev-gothic-nf font-cica && \
 git clone git@github.com:kanalsop/dotfiles.git ~/dotfiles && \
 cd ~/dotfiles && \
@@ -103,7 +107,7 @@ Ghostty, VS Code はローカル端末側の責務なので、Ubuntu サーバ�
 
 ```sh
 sudo apt update && \
-sudo apt install -y zsh stow git curl unzip gpg zsh-autosuggestions
+sudo apt install -y zsh stow git curl unzip gpg zsh-autosuggestions fzf zoxide
 ```
 
 このリポジトリを配置し、Codex CLI の Linux sandbox をセットアップします。
@@ -201,6 +205,26 @@ git pull && \
 stow zsh && \
 exec zsh
 ```
+
+## fzf / zoxide
+
+セットアップ済みの環境には、macOS では `brew install fzf zoxide`、Ubuntu では `sudo apt install -y fzf zoxide` で追加し、`stow zsh` と `exec zsh` で設定を反映します。
+
+インストール済みのツールは `navigation.zsh` が自動で初期化するため、手動で `.zshrc` に追記する必要はありません。
+
+| 操作 | 機能 |
+| --- | --- |
+| `Ctrl-R` | fzf でコマンド履歴を検索 |
+| `Ctrl-T` | fzf でファイル・ディレクトリを選択して入力欄に挿入 |
+| `Alt-C` | fzf でディレクトリを選んで移動 |
+| `z 名前の一部` | zoxide が記録した訪問履歴からディレクトリへ移動 |
+| `zi` | 訪問済みディレクトリを fzf で選んで移動 |
+
+zoxide は通常の `cd` で訪問したディレクトリも記録します。`zsh-autosuggestions` の入力中の提案も引き続き利用できます。
+
+fzf 0.48.0 以降では `fzf --zsh` を使い、それ以前の Ubuntu パッケージでは同梱の補完・キーバインド設定を読み込みます。
+
+公式ドキュメント: [fzf](https://github.com/junegunn/fzf#setting-up-shell-integration)、[zoxide](https://github.com/ajeetdsouza/zoxide#installation)
 
 ## Local-only settings
 

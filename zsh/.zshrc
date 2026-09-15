@@ -17,6 +17,7 @@ esac
 
 [[ -f "$XDG_CONFIG_HOME/zsh/common.zsh" ]] && source "$XDG_CONFIG_HOME/zsh/common.zsh"
 [[ -f "$XDG_CONFIG_HOME/zsh/${ZSH_PLATFORM}.zsh" ]] && source "$XDG_CONFIG_HOME/zsh/${ZSH_PLATFORM}.zsh"
+[[ -f "$XDG_CONFIG_HOME/zsh/navigation.zsh" ]] && source "$XDG_CONFIG_HOME/zsh/navigation.zsh"
 
 # Git 管理しないホスト固有差分
 [[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
