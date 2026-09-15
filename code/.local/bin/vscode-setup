@@ -51,9 +51,8 @@ profile_location() {
   local storage_file="$user_dir/globalStorage/storage.json"
 
   [[ -f "$storage_file" ]] || return 1
-  command -v python3 >/dev/null 2>&1 || return 1
 
-  python3 - "$storage_file" "$profile_name" <<'PY'
+  uv run python - "$storage_file" "$profile_name" <<'PY'
 import json
 import sys
 
@@ -66,6 +65,27 @@ for profile in data.get("userDataProfiles", []):
         print(profile.get("location", ""))
         break
 PY
+}
+
+ensure_profile() {
+  local profile_name="$1"
+  local attempt
+
+  [[ -n "$(profile_location "$profile_name")" ]] && return 0
+
+  echo "Creating VS Code profile '$profile_name' (a VS Code window will open)..."
+  code --new-window --profile "$profile_name"
+
+  # The CLI returns before the GUI finishes creating and saving the profile.
+  for attempt in {1..30}; do
+    if [[ -n "$(profile_location "$profile_name" || true)" ]]; then
+      return 0
+    fi
+    sleep 1
+  done
+
+  echo "Profile '$profile_name' was not saved within 30 seconds. Finish opening VS Code, then rerun vscode-setup." >&2
+  return 1
 }
 
 apply_profile_files() {
@@ -102,6 +122,7 @@ install_extensions "$extensions_dir/default.txt"
 for list_file in "$extensions_dir"/*.txt(N); do
   profile_name="${list_file:t:r}"
   [[ "$profile_name" == "default" ]] && continue
+  ensure_profile "$profile_name"
   install_extensions "$list_file" "$profile_name"
   apply_profile_files "$profile_name"
 done
