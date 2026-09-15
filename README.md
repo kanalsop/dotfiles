@@ -42,7 +42,7 @@
 前提として Homebrew、VS Code、VS Code CLI の `code` コマンドが入っていることを想定しています。
 
 ```sh
-brew install ghostty starship eza uv zsh-autosuggestions fzf zoxide stow && \
+brew install ghostty starship eza uv zsh-autosuggestions fzf zoxide stow bat && \
 brew install --cask font-moralerspace-hw font-udev-gothic-nf font-cica && \
 git clone git@github.com:kanalsop/dotfiles.git ~/dotfiles && \
 cd ~/dotfiles && \
@@ -79,12 +79,6 @@ Ghostty と VS Code の設定で指定しているフォントは次のとおり
 
 `font-moralerspace-hw` には `Moralerspace Neon HW` が含まれます。VS Code の `monospace` は汎用フォント指定なので、個別のインストールは不要です。
 
-上の初回セットアップにも含めていますが、セットアップ済みの環境では次のコマンドでフォントだけを追加できます。
-
-```sh
-brew install --cask font-moralerspace-hw font-udev-gothic-nf font-cica
-```
-
 インストール後は Ghostty と VS Code を再起動してください。
 
 ### Update
@@ -107,7 +101,7 @@ Ghostty, VS Code はローカル端末側の責務なので、Ubuntu サーバ�
 
 ```sh
 sudo apt update && \
-sudo apt install -y zsh stow git curl unzip gpg zsh-autosuggestions fzf zoxide
+sudo apt install -y zsh stow git curl unzip gpg zsh-autosuggestions fzf zoxide bat
 ```
 
 このリポジトリを配置し、Codex CLI の Linux sandbox をセットアップします。

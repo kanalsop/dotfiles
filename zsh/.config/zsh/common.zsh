@@ -56,6 +56,11 @@ if command -v eza >/dev/null 2>&1; then
   alias tree="eza --tree --icons"
 fi
 
+# bat settings
+if command -v bat >/dev/null 2>&1; then
+  alias cat='bat'
+fi
+
 # python venv activation alias
 alias srv='source .venv/bin/activate'
 
