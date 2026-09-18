@@ -56,9 +56,16 @@ if command -v eza >/dev/null 2>&1; then
   alias tree="eza --tree --icons"
 fi
 
+# Ubuntu packages bat as batcat to avoid a name collision.
+if ! command -v bat >/dev/null 2>&1 && command -v batcat >/dev/null 2>&1; then
+  alias bat='batcat'
+fi
+
 # bat settings
 if command -v bat >/dev/null 2>&1; then
   alias cat='bat'
+elif command -v batcat >/dev/null 2>&1; then
+  alias cat='batcat'
 fi
 
 # python venv activation alias

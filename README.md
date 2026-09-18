@@ -106,6 +106,8 @@ sudo apt update && \
 sudo apt install -y zsh stow git curl unzip gpg zsh-autosuggestions fzf zoxide bat
 ```
 
+Ubuntu の `bat` パッケージは実行ファイルを `batcat` として提供します。zsh 設定が `bat` エイリアスを自動で追加するため、macOS と同じコマンド名で使用できます。
+
 このリポジトリを配置し、Codex CLI の Linux sandbox をセットアップします。
 
 ```sh
@@ -219,6 +221,8 @@ exec zsh
 zoxide は通常の `cd` で訪問したディレクトリも記録します。`zsh-autosuggestions` の入力中の提案も引き続き利用できます。
 
 fzf 0.48.0 以降では `fzf --zsh` を使い、それ以前の Ubuntu パッケージでは同梱の補完・キーバインド設定を読み込みます。
+
+ファイル・ディレクトリ検索（`fzf`、`Ctrl-T`、`Alt-C`、`**` 補完）では、どの階層でも `.git`・`node_modules`・`.venv` ディレクトリと `.DS_Store` ファイルを除外します。標準の `find` で検索候補を生成するため、追加ツールは不要です。除外対象は `zsh/.config/zsh/navigation.zsh` の `_fzf_find_filter` で変更できます。パイプで渡した候補や独自の検索コマンドには適用されないため、入力元で除外してください。
 
 公式ドキュメント: [fzf](https://github.com/junegunn/fzf#setting-up-shell-integration)、[zoxide](https://github.com/ajeetdsouza/zoxide#installation)
 
