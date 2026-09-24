@@ -1,0 +1,10 @@
+zsh
+stow
+git
+curl
+unzip
+gpg
+zsh-autosuggestions
+fzf
+zoxide
+bat

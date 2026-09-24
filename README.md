@@ -10,6 +10,10 @@
 
 ## Structure
 
+- `Brewfile`
+  macOS で使う Homebrew formula と cask の一覧です。
+- `packages/ubuntu-apt.txt`
+  Ubuntu の標準 apt リポジトリから導入するパッケージの一覧です。
 - `.stowrc`
   macOS が生成する `.DS_Store` を Stow の対象から除外します。Stow はリポジトリのルートで実行してください。
 - `ghostty/.config/ghostty/config`
@@ -41,17 +45,23 @@
 
 ### Initial setup
 
-前提として Homebrew、VS Code、VS Code CLI の `code` コマンドが入っていることを想定しています。
+前提として Homebrew と `git` コマンドが入っていることを想定しています。VS Code 本体は `Brewfile` からインストールします。
 
 ```sh
-brew install ghostty starship eza uv zsh-autosuggestions fzf zoxide stow bat && \
-brew install --cask font-moralerspace-hw font-udev-gothic-nf font-cica openineditor-lite openinterminal-lite && \
 git clone git@github.com:kanalsop/dotfiles.git ~/dotfiles && \
 cd ~/dotfiles && \
+brew bundle --no-upgrade --file=Brewfile && \
 stow zsh ghostty code openin && \
-~/.local/bin/openin-setup && \
+~/.local/bin/openin-setup
+```
+
+VS Code のコマンドパレットで `Shell Command: Install 'code' command in PATH` を実行し、CLI を有効にしてから拡張機能と profile を反映します。
+
+```sh
 ~/.local/bin/vscode-setup
 ```
+
+Homebrew のパッケージを追加・削除するときは `Brewfile` を編集し、`brew bundle --no-upgrade --file=Brewfile` を再実行します。`--no-upgrade` はインストール済みの項目の更新を省きます。一覧から削除した項目も自動ではアンインストールされません。
 
 反映後は新しいシェルを開くか、現在のシェルで次を実行します。
 
@@ -95,6 +105,7 @@ Ghostty と VS Code の設定で指定しているフォントは次のとおり
 ```sh
 cd ~/dotfiles && \
 git pull && \
+brew bundle --no-upgrade --file=Brewfile && \
 stow zsh ghostty code openin && \
 openin-setup && \
 vscode-setup && \
@@ -109,18 +120,22 @@ Ghostty, VS Code はローカル端末側の責務なので、Ubuntu サーバ�
 
 `starship`、`eza`、`uv`、Codex CLI は環境によって導入方法が複数ありますが、ここでは `apt` で入るものは `apt`、それ以外は公式インストーラを使う想定です。
 
+まずリポジトリ取得用の `git` を導入し、一覧ファイルから残りのパッケージをインストールします。`git` 自体も一覧に含めているため、以降は同じコマンドで環境を再現できます。
+
 ```sh
-sudo apt update && \
-sudo apt install -y zsh stow git curl unzip gpg zsh-autosuggestions fzf zoxide bat
+sudo apt update && sudo apt install -y git
+git clone git@github.com:kanalsop/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+xargs -r -a packages/ubuntu-apt.txt sudo apt install -y
 ```
+
+`packages/ubuntu-apt.txt` は１行に１パッケージ名を書きます。`xargs -a` は Ubuntu の GNU xargs で使えるオプションです。追加リポジトリが必要な `eza` と、Codex CLI 用の apt パッケージは、それぞれ後述の導入手順と `linux-setup` が扱います。
 
 Ubuntu の `bat` パッケージは実行ファイルを `batcat` として提供します。zsh 設定が `bat` エイリアスを自動で追加するため、macOS と同じコマンド名で使用できます。
 
-このリポジトリを配置し、Codex CLI の Linux sandbox をセットアップします。
+続いて、Codex CLI の Linux sandbox をセットアップします。
 
 ```sh
-git clone git@github.com:kanalsop/dotfiles.git ~/dotfiles && \
-cd ~/dotfiles && \
 ./zsh/.local/bin/linux-setup
 ```
 
@@ -208,13 +223,15 @@ exec zsh
 ```sh
 cd ~/dotfiles && \
 git pull && \
+sudo apt update && \
+xargs -r -a packages/ubuntu-apt.txt sudo apt install -y && \
 stow zsh && \
 exec zsh
 ```
 
 ## fzf / zoxide
 
-セットアップ済みの環境には、macOS では `brew install fzf zoxide`、Ubuntu では `sudo apt install -y fzf zoxide` で追加し、`stow zsh` と `exec zsh` で設定を反映します。
+`fzf` と `zoxide` は macOS の `Brewfile` と Ubuntu の `packages/ubuntu-apt.txt` に含まれています。セットアップ済みの環境では各 OS の Update 手順を実行して反映します。
 
 インストール済みのツールは `navigation.zsh` が自動で初期化するため、手動で `.zshrc` に追記する必要はありません。
 
