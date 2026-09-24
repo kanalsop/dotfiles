@@ -20,6 +20,8 @@
   VS Code profile ごとの設定テンプレートと拡張機能リストです。
 - `code/.local/bin/vscode-setup`
   VS Code の拡張機能と profile 設定を再現する補助コマンドです。
+- `openin/.local/bin/openin-setup`
+  OpenInEditor-Lite と OpenInTerminal-Lite の既定アプリを設定する macOS 用コマンドです。
 - `zsh/.zshrc`
   共通設定、OS 別設定、ローカル差分を順に読み込むエントリポイントです。
 - `zsh/.config/zsh/common.zsh`
@@ -43,10 +45,11 @@
 
 ```sh
 brew install ghostty starship eza uv zsh-autosuggestions fzf zoxide stow bat && \
-brew install --cask font-moralerspace-hw font-udev-gothic-nf font-cica && \
+brew install --cask font-moralerspace-hw font-udev-gothic-nf font-cica openineditor-lite openinterminal-lite && \
 git clone git@github.com:kanalsop/dotfiles.git ~/dotfiles && \
 cd ~/dotfiles && \
-stow zsh ghostty code && \
+stow zsh ghostty code openin && \
+~/.local/bin/openin-setup && \
 ~/.local/bin/vscode-setup
 ```
 
@@ -57,6 +60,10 @@ exec zsh
 ```
 
 Ghostty の設定は `stow ghostty` 実行後に Ghostty を再起動するか、Ghostty の設定リロードを実行して反映します。
+
+OpenInEditor-Lite と OpenInTerminal-Lite は `stow openin` で `~/.local/bin/openin-setup` をリンクし、そのコマンドで現在の設定（既定のエディター: Visual Studio Code、既定のターミナル: Ghostty）を反映します。設定値を変える場合は `openin/.local/bin/openin-setup` を編集して、コマンドを再実行してください。
+Finder のツールバーで使うには、`/Applications` から各アプリを Command キーを押しながら Finder のツールバーへドラッグします。初回起動時に Finder へのアクセス許可を求められたら許可してください。ツールバーの配置と macOS のアクセス許可は各 Mac で設定します。
+参考：[OpenInTerminal - README | GitHub](https://github.com/Ji4n1ng/OpenInTerminal/blob/master/Resources/README-Lite.md)
 
 VS Code は次の 2 段階で設定します。
 
@@ -88,7 +95,8 @@ Ghostty と VS Code の設定で指定しているフォントは次のとおり
 ```sh
 cd ~/dotfiles && \
 git pull && \
-stow zsh ghostty code && \
+stow zsh ghostty code openin && \
+openin-setup && \
 vscode-setup && \
 exec zsh
 ```

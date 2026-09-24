@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eu
+
+if [ "$(uname -s)" != Darwin ]; then
+  echo "openin-setup is for macOS only." >&2
+  exit 1
+fi
+
+defaults write wang.jianing.app.OpenInEditor-Lite LiteDefaultEditor -string "Visual Studio Code"
+defaults write wang.jianing.app.OpenInTerminal-Lite LiteDefaultTerminal -string "Ghostty"
+
+echo "OpenInEditor-Lite: Visual Studio Code"
+echo "OpenInTerminal-Lite: Ghostty"
