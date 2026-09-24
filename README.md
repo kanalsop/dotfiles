@@ -62,8 +62,8 @@ exec zsh
 Ghostty の設定は `stow ghostty` 実行後に Ghostty を再起動するか、Ghostty の設定リロードを実行して反映します。
 
 OpenInEditor-Lite と OpenInTerminal-Lite は `stow openin` で `~/.local/bin/openin-setup` をリンクし、そのコマンドで現在の設定（既定のエディター: Visual Studio Code、既定のターミナル: Ghostty）を反映します。設定値を変える場合は `openin/.local/bin/openin-setup` を編集して、コマンドを再実行してください。
-
 Finder のツールバーで使うには、`/Applications` から各アプリを Command キーを押しながら Finder のツールバーへドラッグします。初回起動時に Finder へのアクセス許可を求められたら許可してください。ツールバーの配置と macOS のアクセス許可は各 Mac で設定します。
+参考：[OpenInTerminal - README | GitHub](https://github.com/Ji4n1ng/OpenInTerminal/blob/master/Resources/README-Lite.md)
 
 VS Code は次の 2 段階で設定します。
 
