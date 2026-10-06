@@ -3,6 +3,8 @@ name: grilling
 description: >
     Stress-test a plan, decision, or idea through structured, dependency-aware questioning. Use
     only when the user explicitly asks to be grilled or explicitly invokes this skill.
+argument-hint: "[plan, decision, or idea]"
+disable-model-invocation: true
 ---
 
 # Grilling

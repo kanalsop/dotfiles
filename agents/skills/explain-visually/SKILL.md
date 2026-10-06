@@ -4,6 +4,8 @@ description: >
     Turn a long design document, implementation brief, pull request, or issue into a verified,
     self-contained visual explanation. Use only when the user explicitly requests a visual
     explanation or explicitly invokes this skill.
+argument-hint: "<PR, issue, or document>"
+disable-model-invocation: true
 ---
 
 # Explain Visually
