@@ -29,7 +29,10 @@
     },
     "excludedCommands": [
       "docker *",
-      "gh *"
+      "gh *",
+      "git fetch *",
+      "git pull *",
+      "git push *"
     ]
   },
   "autoMemoryEnabled": false,
