@@ -38,6 +38,8 @@
   `~/.local/bin` と、Codex CLI が `bwrap` を検出するための `/usr/bin` など、Linux 側の PATH 設定です。
 - `zsh/.local/bin/linux-setup`
   Ubuntu 上で Codex CLI、`bubblewrap`、AppArmor profile をセットアップし、Linux sandbox の動作を検証する補助コマンドです。
+- `agents/`
+  Claude Code と Codex で共有するエージェントハーネス（共通の指示、Skills、各エージェントの設定）です。Stow ではなく `agents/install.sh` で反映します。詳細は [agents/README.md](agents/README.md) を参照してください。
 - `~/.zshrc.local`
   Git 管理しないローカル差分です。
 
@@ -52,7 +54,8 @@ git clone git@github.com:kanalsop/dotfiles.git ~/dotfiles && \
 cd ~/dotfiles && \
 brew bundle --no-upgrade --file=Brewfile && \
 stow zsh ghostty code openin && \
-~/.local/bin/openin-setup
+~/.local/bin/openin-setup && \
+bash agents/install.sh
 ```
 
 VS Code のコマンドパレットで `Shell Command: Install 'code' command in PATH` を実行し、CLI を有効にしてから拡張機能と profile を反映します。
@@ -109,6 +112,7 @@ brew bundle --no-upgrade --file=Brewfile && \
 stow zsh ghostty code openin && \
 openin-setup && \
 vscode-setup && \
+bash agents/install.sh && \
 exec zsh
 ```
 
@@ -171,10 +175,11 @@ sudo apt update && \
 sudo apt install -y eza
 ```
 
-その後、zsh の設定を反映します。
+その後、zsh の設定とエージェントハーネスを反映します。
 
 ```sh
-stow zsh
+stow zsh && \
+bash agents/install.sh
 ```
 
 `linux.zsh` は Codex CLI などのユーザーコマンド用に `~/.local/bin` を、`apt` がインストールする `/usr/bin/bwrap` を Codex CLI が確実に検出できるように `/usr/bin` を PATH へ明示的に追加します。
@@ -226,8 +231,25 @@ git pull && \
 sudo apt update && \
 xargs -r -a packages/ubuntu-apt.txt sudo apt install -y && \
 stow zsh && \
+bash agents/install.sh && \
 exec zsh
 ```
+
+## Agent harness
+
+`agents/` は [furedea/dotfiles](https://github.com/furedea/dotfiles) の `agents/` を元にした、Claude Code と Codex 共通のエージェントハーネスです。各 OS の Initial setup / Update 手順に含まれる次のコマンドで反映します。Python 3.11 以上の `python3` が必要です。
+
+```sh
+bash ~/dotfiles/agents/install.sh
+```
+
+`install.sh` は次を行います。何が変わるかは `--dry-run` で確認できます。
+
+- `agents/AGENTS.md` を `~/.claude/CLAUDE.md` と `~/.codex/AGENTS.md` に、`agents/skills/` の各 Skill を `~/.claude/skills/` と `~/.agents/skills/` にリンクします。
+- Claude Code のステータスライン `agents/claude/statusline/statusline.py` を `~/.claude/statusline/` にリンクします。
+- `agents/claude/settings.json` と `agents/codex/config.toml` のキーを、`~/.claude/settings.json` と `~/.codex/config.toml` にマージします。repo にないキー（モデル選択やプロジェクトの信頼設定など）は残ります。
+
+既存のファイルを置き換える・書き換えるときは `<name>.bak.<日時>` に退避します。リンクやマージの詳細、アンインストール方法は [agents/README.md](agents/README.md) を参照してください。
 
 ## fzf / zoxide
 

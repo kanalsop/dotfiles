@@ -1,0 +1,28 @@
+personality = "pragmatic"
+approval_policy = "on-request"
+
+[notice]
+fast_default_opt_out = true
+hide_rate_limit_model_nudge = true
+
+[tui]
+use_theme_colors = true
+status_line = [
+  "project-root",
+  "model-with-reasoning",
+  "context-used",
+  "five-hour-limit",
+  "weekly-limit",
+]
+notifications = ["agent-turn-complete", "approval-requested"]
+notification_condition = "unfocused"
+notification_method = "auto"
+
+[features]
+hooks = true
+external_migration = true
+
+[features.multi_agent_v2]
+enabled = true
+min_wait_timeout_ms = 120000
+default_wait_timeout_ms = 120000

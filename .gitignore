@@ -13,3 +13,6 @@
 *.swp
 *.swo
 *~
+
+# python
+__pycache__/

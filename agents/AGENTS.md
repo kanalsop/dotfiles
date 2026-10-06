@@ -1,0 +1,47 @@
+# General
+
+- Think in English, but generate responses in Japanese
+- Write documentation, code comments, and commit messages in English for public repositories
+- When writing commit messages, follow Conventional Commits rules
+- Implement based on Test-Specification-Driven Development (TSDD)
+
+# Development Workflow
+
+For implementation, use `issue-workflow` → `git-workflow` → `tsdd` →
+`git-workflow` → `issue-workflow` for issue/plan setup, branching, implementation,
+delivery, and status reconciliation, respectively.
+
+Consult skills as needed and apply only the stages relevant to the request.
+
+- Information placement and duplicated or conflicting sources → `source-of-truth`
+- Broad design decisions and durable constraints → `adr`
+- Ambiguous domain terms, concept boundaries, or invariants → `domain-modeling`
+- Language-specific conventions → the matching `*-style` skill (for example `python-style`)
+- Only when the user explicitly asks: `grilling` (stress-test a plan or idea) and
+  `explain-visually` (visual HTML explanation of a long document, PR, or issue)
+
+# Coding Guidelines
+
+Existing project style takes precedence over these rules.
+
+- Keep files focused: prefer 80-120 columns, roughly 200-500 lines, high-level code before lower-level details, and related concepts close together.
+- Before writing new code, check whether related existing code, the standard library, platform features, or already-installed dependencies satisfy the requirement.
+- Separate object creation/configuration from execution logic.
+- Keep classes and modules single-purpose, cohesive, loosely coupled, and minimally public.
+- Name classes by responsibility; order methods public-to-private; use DTOs at component boundaries.
+- Keep domain-specific enums and exception classes near their owning class; use one exception class per domain failure concept unless it is shared across modules.
+- Keep functions single-purpose at one abstraction level: prefer 0-3 arguments, short variable lifetimes, and guard clauses over nested conditionals; keep nesting to about two levels.
+- Extract a function when its name states intent the inline code does not; do not split merely to shorten a function.
+- Split duplicated logic, control structures, mixed responsibilities, and command/query behavior into named functions or objects.
+- Name one concept with one word; name command functions for their side effects and query functions for the value they return.
+- Let name length match scope size; include units, trust/safety attributes, and boolean prefixes where they clarify meaning.
+- Minimize comments and docstrings; use them for public APIs, TODOs, non-obvious constraints, and intent that code cannot express.
+- Prefer DRY, YAGNI, and Law of Demeter. Do not add features, abstractions, configuration, or dependencies the current request does not require.
+- Apply SOLID pragmatically; introduce interfaces, polymorphism, or dependency inversion only at meaningful boundaries.
+- Separate policy from details; delay database, framework, and external-service decisions behind abstractions when doing so reduces coupling.
+- Prefer Value Objects over raw primitives for values with validation, invariants, or domain behavior.
+- Prefer Collection Objects for domain collections with invariants; do not expose mutable raw collections.
+- Use Entities only when stable identity matters across state changes.
+- Use classification objects/enums when categories or state transitions have domain rules.
+- Parse raw input into constrained types once at the boundary; do not re-validate the same value downstream.
+- Make invalid states unrepresentable where the language allows: return expected failures as values (Result or an equivalent) and handle sum types exhaustively. Types do not replace tests for business rules, ordering, side effects, or integration.
