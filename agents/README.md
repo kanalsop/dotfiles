@@ -15,7 +15,7 @@ agents/
 │   └── statusline/statusline.py   # Claude Code のステータスライン
 ├── codex/
 │   └── config.toml                # Codex の共通設定（~/.codex/config.toml にマージ）
-├── tests/                         # merge_config.py のテスト
+├── tests/                         # merge_config.py と skills の設定のテスト
 └── skills/
     ├── tsdd/              # テスト仕様駆動開発（TDD の進め方・テストの質）
     ├── git-workflow/      # ブランチ/コミット/PR の作法と「どこまでやってよいか」
@@ -66,6 +66,7 @@ bash ~/dotfiles/agents/install.sh
 - **削除**: Nix / flake、hooks（コマンドガード・自動検証・監査ログ）、Herdr 連携、`project-setup` と `nix-dotfiles` などの個人環境向け skill、Rust/Bash/GitHub Actions の style skill
 - **AGENTS.md**: 「，．」の句読点ルールと、ディレクトリ名・ファイル名の命名ルールを外し、skill の使い分けを追記
 - **tsdd / git-workflow**: 独自の `verification_session.py` を前提にした検証手順を、「リポジトリで定められた検証コマンド（Makefile、pre-commit、CI 相当のスクリプトなど）を使う」に置き換え
+- **grilling / explain-visually**: 元の `skill_rendering.json` による生成をやめ、明示呼び出し専用の設定を各スキルに直接置く（Claude Code は SKILL.md の `disable-model-invocation: true` と `argument-hint`、Codex は `agents/openai.yaml` の `allow_implicit_invocation: false`）。同じフォルダを両方にリンクしており、それぞれ相手のキーやファイルを無視するため
 - **explain-visually**: 検証スクリプトを `uv` 経由ではなく `python3` で直接実行する形に変更（Python 3.10 以上、標準ライブラリのみ。スクリーンショットの確認には Chrome か Chromium が必要）
 - **python-style**: 個人テンプレート前提の記述を「プロジェクトの dependency group」に変更
 - **claude/settings.json**: モデル・推論強度・サブエージェントのモデル、vim モード、プラグインとマーケットプレイス、Nix や Herdr 向けの sandbox 設定、`core.fsmonitor` の上書き、通知用ドメインを外す
