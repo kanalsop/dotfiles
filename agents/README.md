@@ -25,7 +25,8 @@ agents/
     ├── domain-modeling/   # 用語・概念境界・不変条件の整理
     ├── grilling/          # 計画を質問攻めで詰める（明示的に呼んだ時だけ）
     ├── explain-visually/  # 長い文書や PR を HTML で図解（明示的に呼んだ時だけ）
-    └── python-style/      # Python の規約（uv / pytest / ty / ruff）
+    ├── python-style/      # Python の規約（uv / pytest / ty / ruff）
+    └── rust-style/        # Rust の規約（cargo / clippy / rustfmt / anyhow・thiserror）
 ```
 
 ## インストール
@@ -63,12 +64,13 @@ bash ~/dotfiles/agents/install.sh
 
 ## 元のハーネスから変えた点
 
-- **削除**: Nix / flake、hooks（コマンドガード・自動検証・監査ログ）、Herdr 連携、`project-setup` と `nix-dotfiles` などの個人環境向け skill、Rust/Bash/GitHub Actions の style skill
+- **削除**: Nix / flake、hooks（コマンドガード・自動検証・監査ログ）、Herdr 連携、`project-setup` と `nix-dotfiles` などの個人環境向け skill、Bash/GitHub Actions の style skill
 - **AGENTS.md**: 「，．」の句読点ルールと、ディレクトリ名・ファイル名の命名ルールを外し、skill の使い分けを追記
 - **tsdd / git-workflow**: 独自の `verification_session.py` を前提にした検証手順を、「リポジトリで定められた検証コマンド（Makefile、pre-commit、CI 相当のスクリプトなど）を使う」に置き換え。tsdd には移行先の [furedea/agent-config](https://github.com/furedea/agent-config)（コミット `e5edbe6` 時点）で追加された Mutation Testing の節を取り込む
 - **grilling / explain-visually**: 元の `skill_rendering.json` による生成をやめ、明示呼び出し専用の設定を各スキルに直接置く（Claude Code は SKILL.md の `disable-model-invocation: true` と `argument-hint`、Codex は `agents/openai.yaml` の `allow_implicit_invocation: false`）。同じフォルダを両方にリンクしており、それぞれ相手のキーやファイルを無視するため
 - **explain-visually**: 検証スクリプトを `uv` 経由ではなく `python3` で直接実行する形に変更（Python 3.10 以上、標準ライブラリのみ。スクリーンショットの確認には Chrome か Chromium が必要）
 - **python-style**: 個人テンプレート前提の記述を「プロジェクトの dependency group」に変更。agent-config で追加された `mutmut` による mutation testing の節と、`ty server` の `--frozen` を取り込む
+- **rust-style**: `project-setup` と Nix への言及、hook の検証結果を再利用する前提の記述を外す。agent-config で追加された `cargo-mutants` による mutation testing の節を取り込む
 - **claude/settings.json**: モデル・推論強度・サブエージェントのモデル、vim モード、プラグインとマーケットプレイス、Nix や Herdr 向けの sandbox 設定、`core.fsmonitor` の上書き、通知用ドメインを外す
 - **codex/config.toml**: モデル・推論強度・承認レビュアー、`sandbox_mode = "read-only"`、vim モード、プラグインの有効化、生成スクリプト向けのコメントを外す
 - **statusline.py**: Python 3.14 専用の `except` 構文を括弧付きにして、古い Python でも動くように変更
