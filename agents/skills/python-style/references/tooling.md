@@ -31,5 +31,5 @@
   `uv add --group <group> ty` only when dependency changes are within the request
 - Run type checks using `uv run --frozen ty check`
 - Check specific paths using `uv run --frozen ty check src tests`
-- Use `uv run ty server` only for editor or language-server integration
+- Use `uv run --frozen ty server` only for editor or language-server integration
 - Do not introduce another type checker unless the existing project is already standardized on it
