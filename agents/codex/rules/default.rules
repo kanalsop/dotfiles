@@ -1,0 +1,59 @@
+prefix_rule(
+    pattern = ["gh", "pr", ["list", "view", "diff", "checks", "status"]],
+    decision = "allow",
+    justification = "Read-only pull request inspection",
+    match = [
+        "gh pr list",
+        "gh pr list --state open",
+        "gh pr view 17",
+        "gh pr diff 17 --name-only",
+        "gh pr checks 17",
+        "gh pr status",
+    ],
+    not_match = [
+        "gh pr create --title change",
+        "gh pr merge 17",
+    ],
+)
+
+prefix_rule(
+    pattern = ["gh", "issue", ["list", "view"]],
+    decision = "allow",
+    justification = "Read-only issue inspection",
+    match = [
+        "gh issue list",
+        "gh issue list --state open",
+        "gh issue view 17",
+    ],
+    not_match = [
+        "gh issue create --title change",
+        "gh issue close 17",
+    ],
+)
+
+prefix_rule(
+    pattern = ["gh", "run", ["list", "view"]],
+    decision = "allow",
+    justification = "Read-only workflow run inspection",
+    match = [
+        "gh run list",
+        "gh run view 17",
+    ],
+    not_match = [
+        "gh run rerun 17",
+        "gh run cancel 17",
+    ],
+)
+
+prefix_rule(
+    pattern = ["gh", "repo", "view"],
+    decision = "allow",
+    justification = "Read-only repository inspection",
+    match = [
+        "gh repo view",
+        "gh repo view openai/codex",
+    ],
+    not_match = [
+        "gh repo create new-repo",
+    ],
+)

@@ -1,5 +1,6 @@
 personality = "pragmatic"
 approval_policy = "on-request"
+default_permissions = "esa_read"
 
 [notice]
 fast_default_opt_out = true
@@ -21,6 +22,19 @@ notification_method = "auto"
 [features]
 hooks = true
 external_migration = true
+
+[features.network_proxy]
+enabled = true
+
+[permissions.esa_read]
+extends = ":workspace"
+
+[permissions.esa_read.network]
+enabled = true
+mode = "limited"
+
+[permissions.esa_read.network.domains]
+"api.esa.io" = "allow"
 
 [features.multi_agent_v2]
 enabled = true
