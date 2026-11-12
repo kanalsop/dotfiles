@@ -15,6 +15,8 @@ readonly SKILL_TARGET_DIRS=(
 )
 readonly STATUSLINE_SOURCE="$REPO_DIR/claude/statusline/statusline.py"
 readonly STATUSLINE_TARGET="$HOME/.claude/statusline/statusline.py"
+readonly CODEX_RULES_SOURCE="$REPO_DIR/codex/rules/default.rules"
+readonly CODEX_RULES_TARGET="$HOME/.codex/rules/default.rules"
 readonly MERGE_SCRIPT="$REPO_DIR/merge_config.py"
 readonly CONFIG_SOURCES=(
   "$REPO_DIR/claude/settings.json"
@@ -28,9 +30,10 @@ readonly CONFIG_TARGETS=(
 function usage() {
   cat <<EOF
 Description:
-    Link AGENTS.md, skills, and the status line from this directory into Claude Code and Codex,
-    and merge the managed keys of claude/settings.json and codex/config.toml into the agents' own
-    config files. Existing files that are replaced or changed are kept as <name>.bak.<timestamp>.
+    Link AGENTS.md, skills, the status line, and Codex command rules from this directory into
+    Claude Code and Codex, and merge the managed keys of claude/settings.json and codex/config.toml
+    into the agents' own config files. Existing files that are replaced or changed are kept as
+    <name>.bak.<timestamp>.
 
 Usage:
     $0 [--dry-run] [--uninstall]
@@ -109,6 +112,7 @@ function install_all() {
     done < <(skill_dirs)
   done
   link_path "$STATUSLINE_SOURCE" "$STATUSLINE_TARGET"
+  link_path "$CODEX_RULES_SOURCE" "$CODEX_RULES_TARGET"
   local _i
   for _i in "${!CONFIG_SOURCES[@]}"; do
     merge_config "${CONFIG_SOURCES[$_i]}" "${CONFIG_TARGETS[$_i]}"
@@ -126,6 +130,7 @@ function uninstall_all() {
     done < <(skill_dirs)
   done
   unlink_path "$STATUSLINE_TARGET"
+  unlink_path "$CODEX_RULES_TARGET"
   echo "kept: merged keys in ${CONFIG_TARGETS[*]} (restore a .bak file to revert them)"
 }
 

@@ -58,6 +58,13 @@ bash ~/dotfiles/agents/install.sh
 
 設定を変えたいときは repo 側のファイルを編集して `install.sh` を再実行します。
 
+Codex links `codex/rules/default.rules` to `~/.codex/rules/default.rules`. The `esa_read`
+permission profile limits sandboxed API access to `api.esa.io`. GitHub CLI commands are allowed
+without approval only for the explicitly listed read-only PR, issue, workflow-run, and repository
+inspection commands. Create and mutation commands remain outside the allowlist. Restart Codex to
+load configuration and rule changes. Claude Code uses its `settings.json` allowlist for the same
+read-only command set.
+
 ### アンインストール
 
 `bash install.sh --uninstall` はこのフォルダを指すリンクだけを削除します。マージ済みの設定は残るので、戻す場合は `.bak` を戻してください。
